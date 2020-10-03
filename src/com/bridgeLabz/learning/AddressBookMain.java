@@ -8,7 +8,7 @@ public class AddressBookMain {
 		System.out.println("Welcome to addressBook problem");
 		Persons addressBook = new Persons();
 		while(true){
-			System.out.println("1. add contacts\n 2.exit");
+			System.out.println("1. add contacts\n 2.edit contacts\n 3.view contacts\n 4.exit");
 			System.out.println("Enter your choice");
 			int n=sc.nextInt();
 			switch(n){
@@ -32,6 +32,14 @@ public class AddressBookMain {
 				addressBook.addContacts(firstName, lastName, address, city, state, zip, mobNum, email);
 				break;
 			case 2:
+				System.out.println("Enter the name for which you wants to edit contacts");
+				String name = sc.next();
+				addressBook.editContacts(name);
+				break;
+			case 3:
+				addressBook.viewContacts();
+				break;
+			case 4:
 				System.exit(0);
 			}
 		}
