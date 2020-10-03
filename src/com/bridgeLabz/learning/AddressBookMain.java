@@ -8,7 +8,7 @@ public class AddressBookMain {
 		System.out.println("Welcome to addressBook problem");
 		Persons addressBook = new Persons();
 		while(true){
-			System.out.println("1. add contacts\n 2.edit contacts\n 3.view contacts\n 4.exit");
+			System.out.println("1. add contacts\n 2.edit contacts\n 3.view contacts\n 4.delete contacts\n5.exit");
 			System.out.println("Enter your choice");
 			int n=sc.nextInt();
 			switch(n){
@@ -40,6 +40,14 @@ public class AddressBookMain {
 				addressBook.viewContacts();
 				break;
 			case 4:
+				String s = sc.next();
+				int i=addressBook.deleteContacts(s);
+				if(i==0){
+					System.out.println("Given contact does not exist");
+				}
+				break;
+				
+			case 5:
 				System.exit(0);
 			}
 		}
