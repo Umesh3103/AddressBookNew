@@ -64,4 +64,13 @@ public class Persons {
 			return 0;
 		}
 
+		public boolean checkDuplicate(String name){
+			for(int i=0; i<contacts.size();i++){
+				Details p = (Details) contacts.get(i);
+				if(name.equals(p.getFirstName())){
+					return true;
+				}
+			}
+			return false;
+		}
 }

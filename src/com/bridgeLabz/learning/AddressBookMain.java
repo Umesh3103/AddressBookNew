@@ -42,10 +42,22 @@ public class AddressBookMain {
 			System.out.println("enter email");
 			String email =sc.next();
 			if(flag==0){
-			addressBook.addContacts(firstName, lastName, address, city, state, zip, mobNum, email);
+				boolean t = addressBook.checkDuplicate(firstName);
+				if(!t){
+					addressBook.addContacts(firstName, lastName, address, city, state, zip, mobNum, email);
+				}
+				else{
+					System.out.println("Contact with given name already exists");
+				}
 			}
 			else{
-				addressBook2.addContacts(firstName, lastName, address, city, state, zip, mobNum, email);
+				boolean t =addressBook.checkDuplicate(firstName);
+				if(!t){
+					addressBook2.addContacts(firstName, lastName, address, city, state, zip, mobNum, email);
+				}
+				else{
+					System.out.println("Contact with given name already exists");
+				}
 			}
 			break;
 		
