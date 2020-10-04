@@ -7,7 +7,6 @@ public class Persons {
 		ArrayList<Details> contacts;
 		Map<String,String> cityMap = new HashMap<>();
 		Map<String,String> stateMap = new HashMap<>();
-		
 		public Persons() {
 			contacts =new ArrayList<Details>();
 			cityMap = new HashMap<String,String>();
@@ -116,11 +115,31 @@ public class Persons {
 			for(Map.Entry<String,String> entry: stateMap.entrySet()){
 				if(entry.getValue().equals(state)){
 					System.out.println("Person living in state "+state+" is "+entry.getKey());
+					flag=1;
 				}
-				flag=1;
+				
 			}
 			if(flag==0){
 				System.out.println("State does not exist");
 			}
 		}
+		public int countPersonsByCity(String city){
+			int cityCount=0;
+			for(Map.Entry<String,String> entry: cityMap.entrySet()){
+				if(entry.getValue().equals(city)){
+					cityCount++;
+				}
+			}
+			return cityCount;
+		}
+		public int countPersonsByState(String state){
+			int stateCount=0;
+			for(Map.Entry<String,String> entry: stateMap.entrySet()){
+				if(entry.getValue().equals(state)){
+					stateCount++;
+				}
+			}
+			return stateCount;
+		}
+		
 }
