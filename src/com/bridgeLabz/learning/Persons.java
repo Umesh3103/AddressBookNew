@@ -92,9 +92,35 @@ public class Persons {
 		public void searchPersonByState(String state){
 			for(Map.Entry<String,String> entry: stateMap.entrySet()){
 				if(entry.getValue().equals(state)){
-					System.out.println("Person living in city "+state+" is "+entry.getKey());
+					System.out.println("Person living in state "+state+" is "+entry.getKey());
 				}
 			}
 			
+		}
+		
+		public void viewPersonByCity(String city){
+			int flag=0;
+			for(Map.Entry<String,String> entry: stateMap.entrySet()){
+				if(entry.getValue().equals(city)){
+					System.out.println("Person living in city "+city+" is "+entry.getKey());
+					flag=1;
+				}
+			}
+			if(flag==0){
+				System.out.println("City does not exist");
+			}
+		}
+		
+		public void viewPersonByState(String state){
+			int flag=0;
+			for(Map.Entry<String,String> entry: stateMap.entrySet()){
+				if(entry.getValue().equals(state)){
+					System.out.println("Person living in state "+state+" is "+entry.getKey());
+				}
+				flag=1;
+			}
+			if(flag==0){
+				System.out.println("State does not exist");
+			}
 		}
 }

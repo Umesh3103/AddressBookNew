@@ -17,7 +17,7 @@ public class AddressBookMain {
 		while(true){
 			System.out.println("In which addressBook you wants to add details. Press 0 for addressBook1 and 1 for addressBook2");
 			flag= sc.nextInt();
-			System.out.println("1. add contacts\n 2. edit contacts\n 3. delete contacts\n 4. viewContacts\n 5. search by city\n 6. search person by state\n 7. exit.");
+			System.out.println("1. add contacts\n 2. edit contacts\n 3. delete contacts\n 4. viewContacts\n 5. search by city\n 6. search person by state\n 7. view person by city\n 8. view person by state\n 9. exit.");
 			int n;
 			System.out.println("Enter your choice");
 			n=sc.nextInt();
@@ -102,12 +102,26 @@ public class AddressBookMain {
 			String cityName = sc.next();
 			addressBook.searchPersonByCity(cityName);
 			addressBook2.searchPersonByCity(cityName);
+			break;
 		case 6:
 			System.out.println("Enter state:");
 			String stateName = sc.next();
 			addressBook.searchPersonByState(stateName);
 			addressBook2.searchPersonByState(stateName);
-		case 7:
+			break;
+		case 7:	
+			System.out.println("Enter city:");
+			String c = sc.next();
+			addressBook.viewPersonByCity(c);
+			addressBook2.viewPersonByCity(c);
+			break;
+		case 8:
+			System.out.println("Enter state:");
+			String st = sc.next();
+			addressBook.viewPersonByState(st);
+			addressBook2.viewPersonByState(st);
+			break;
+		case 9:
 			System.exit(0);
 			break;
 		}
