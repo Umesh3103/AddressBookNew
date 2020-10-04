@@ -5,9 +5,13 @@ import java.util.*;
 public class Persons {
 
 		ArrayList<Details> contacts;
-
+		Map<String,String> cityMap = new HashMap<>();
+		Map<String,String> stateMap = new HashMap<>();
+		
 		public Persons() {
 			contacts =new ArrayList<Details>();
+			cityMap = new HashMap<String,String>();
+			stateMap = new HashMap<String,String>();
 			// TODO Auto-generated constructor stub
 		}
 		
@@ -15,6 +19,8 @@ public class Persons {
 				String email){
 			Details c = new Details(firstName,lastName, address, city, state, zip,mobNum,email);
 			contacts.add(c);
+			cityMap.put(firstName, city);
+			stateMap.put(firstName, state);
 		}
 		
 		public void editContacts(String name){
@@ -72,5 +78,23 @@ public class Persons {
 				}
 			}
 			return false;
+		}
+		
+		public void searchPersonByCity(String city){
+			for(Map.Entry<String,String> entry: cityMap.entrySet()){
+				if(entry.getValue().equals(city)){
+					System.out.println("Person living in city "+city+" is "+entry.getKey());
+				}
+			}
+			
+		}
+		
+		public void searchPersonByState(String state){
+			for(Map.Entry<String,String> entry: stateMap.entrySet()){
+				if(entry.getValue().equals(state)){
+					System.out.println("Person living in city "+state+" is "+entry.getKey());
+				}
+			}
+			
 		}
 }
