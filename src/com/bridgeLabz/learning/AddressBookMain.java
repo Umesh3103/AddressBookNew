@@ -17,7 +17,7 @@ public class AddressBookMain {
 		while(true){
 			System.out.println("In which addressBook you wants to add details. Press 0 for addressBook1 and 1 for addressBook2");
 			flag= sc.nextInt();
-			System.out.println("1. add contacts\n 2. edit contacts\n 3. delete contacts\n 4. viewContacts\n 5. search by city\n 6. search person by state\n 7. view person by city\n 8. view person by state\n 9. count person by city\n 10. count person by state\n 11. exit.");
+			System.out.println("1. add contacts\n 2. edit contacts\n 3. delete contacts\n 4. viewContacts\n 5. search by city\n 6. search person by state\n 7. view person by city\n 8. view person by state\n 9. count person by city\n 10. count person by state\n 11.sort\n 12. exit.");
 			int n;
 			System.out.println("Enter your choice");
 			n=sc.nextInt();
@@ -42,22 +42,10 @@ public class AddressBookMain {
 			System.out.println("enter email");
 			String email =sc.next();
 			if(flag==0){
-				boolean t = addressBook.checkDuplicate(firstName);
-				if(!t){
-					addressBook.addContacts(firstName, lastName, address, city, state, zip, mobNum, email);
-				}
-				else{
-					System.out.println("Contact with given name already exists");
-				}
+					addressBook.addContacts(flag,firstName, lastName, address, city, state, zip, mobNum, email);
 			}
 			else{
-				boolean t =addressBook.checkDuplicate(firstName);
-				if(!t){
-					addressBook2.addContacts(firstName, lastName, address, city, state, zip, mobNum, email);
-				}
-				else{
-					System.out.println("Contact with given name already exists");
-				}
+					addressBook2.addContacts(flag, firstName, lastName, address, city, state, zip, mobNum, email);
 			}
 			break;
 		
@@ -65,10 +53,10 @@ public class AddressBookMain {
 			System.out.println("Enter the name for which you wants to edit contacts");
 			String name = sc.next();
 				if(flag==0){
-				addressBook.editContacts(name);
+				addressBook.editContacts(flag,name);
 				}
 				else{
-					addressBook2.editContacts(name);
+					addressBook2.editContacts(flag,name);
 				}
 				System.out.println("Edited contacts");
 				addressBook.viewContacts();
@@ -98,16 +86,16 @@ public class AddressBookMain {
 			break;
 		
 		case 5:
-			System.out.println("Enter city:");
-			String cityName = sc.next();
-			addressBook.searchPersonByCity(cityName);
-			addressBook2.searchPersonByCity(cityName);
+			System.out.println("Enter name:");
+			String Name = sc.next();
+			addressBook.searchPersonByNameForCity(Name);
+			addressBook2.searchPersonByNameForCity(Name);
 			break;
 		case 6:
 			System.out.println("Enter state:");
-			String stateName = sc.next();
-			addressBook.searchPersonByState(stateName);
-			addressBook2.searchPersonByState(stateName);
+			String name1 = sc.next();
+			addressBook.searchPersonByNameForState(name1);
+			addressBook2.searchPersonByNameForState(name1);
 			break;
 		case 7:	
 			System.out.println("Enter city:");
@@ -134,6 +122,14 @@ public class AddressBookMain {
 			System.out.println("count of persons living in state "+st1+ " is "+countState);
 			break;
 		case 11:
+			System.out.println("Sort by: 1. name ");
+			int x=sc.nextInt();
+			if(x==1){
+				addressBook.sortByName();
+				addressBook2.sortByName();
+			}
+			break;
+		case 12:
 			System.exit(0);
 			break;
 		}

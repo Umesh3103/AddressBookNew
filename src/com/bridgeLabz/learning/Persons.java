@@ -1,10 +1,16 @@
 package com.bridgeLabz.learning;
 
 import java.util.*;
+import java.util.Map.Entry;
+import java.util.function.Predicate;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Persons {
 
-		ArrayList<Details> contacts;
+		List<Details> contacts;
+		Map<List<Details>, Integer> contactMap=new HashMap<>();
 		Map<String,String> cityMap = new HashMap<>();
 		Map<String,String> stateMap = new HashMap<>();
 		public Persons() {
@@ -14,15 +20,23 @@ public class Persons {
 			// TODO Auto-generated constructor stub
 		}
 		
-		public void addContacts(String firstName, String lastName, String address, String city, String state, int zip, Long mobNum,
+		public void addContacts(int addressBook, String firstName, String lastName, String address, String city, String state, int zip, Long mobNum,
 				String email){
+			contacts =new ArrayList<Details>();			
+			boolean result = contactMap.entrySet().stream().filter(p-> p.getValue().equals(firstName)).findAny().orElse(null) != null;
+			if(result){
+				System.out.println("name already exist in the addressBook");
+			}
+			else{
 			Details c = new Details(firstName,lastName, address, city, state, zip,mobNum,email);
 			contacts.add(c);
+			contactMap.put(contacts,addressBook);
 			cityMap.put(firstName, city);
 			stateMap.put(firstName, state);
+			}
 		}
 		
-		public void editContacts(String name){
+		public void editContacts(int addressBook,String name){
 			Scanner sc = new Scanner(System.in);
 			for(int i=0; i<contacts.size();i++){
 				Details p = (Details) contacts.get(i);
@@ -42,28 +56,35 @@ public class Persons {
 					p.setState(state);
 					p.setZip(zip);
 					p.setMobNum(mob);
+					contactMap.replace(contacts,addressBook);
 				}
+				
 			}
 		}	
 		public void viewContacts(){
-			for(int i=0;i<contacts.size();i++){
-				System.out.print(contacts.get(i).getFirstName()+" ");
-				System.out.print(contacts.get(i).getLastName()+" ");
-				System.out.print(contacts.get(i).getAddress()+" ");
-				System.out.print(contacts.get(i).getCity()+" ");
-				System.out.print(contacts.get(i).getState()+" ");
-				System.out.print(contacts.get(i).getZip()+" ");
-				System.out.print(contacts.get(i).getMobNum()+" ");
-				System.out.println(contacts.get(i).getEmail());
+			for(Map.Entry<List<Details>,Integer> listEntry: contactMap.entrySet()){
+				for(Details view : listEntry.getKey()){
+					System.out.print(view.getFirstName()+" ");
+					System.out.print(view.getLastName()+" ");
+					System.out.print(view.getAddress()+" ");
+					System.out.print(view.getCity()+" ");
+					System.out.print(view.getState()+" ");
+					System.out.print(view.getZip()+" ");
+					System.out.print(view.getMobNum()+" ");
+					System.out.println(view.getEmail());
+					
 				}
 			}
+		}	
 	
 		public int deleteContacts(String name){
-			for(int i=0; i<contacts.size();i++){
-				Details p = (Details) contacts.get(i);
-				if(name.equals(p.getFirstName())){
-					contacts.remove(i);
+			for(Map.Entry<List<Details>, Integer> entry: contactMap.entrySet()){
+				List<Details> p = entry.getKey();
+				for(int i=0;i<p.size();i++){
+				if(name.equals(p.get(i))){
+					contactMap.remove(name);
 					return 1;
+				}
 				}
 			}
 			return 0;
@@ -78,68 +99,69 @@ public class Persons {
 			}
 			return false;
 		}
-		
-		public void searchPersonByCity(String city){
-			for(Map.Entry<String,String> entry: cityMap.entrySet()){
-				if(entry.getValue().equals(city)){
-					System.out.println("Person living in city "+city+" is "+entry.getKey());
-				}
-			}
-			
-		}
-		
-		public void searchPersonByState(String state){
-			for(Map.Entry<String,String> entry: stateMap.entrySet()){
-				if(entry.getValue().equals(state)){
-					System.out.println("Person living in state "+state+" is "+entry.getKey());
-				}
-			}
-			
-		}
-		
 		public void viewPersonByCity(String city){
+			cityMap.entrySet().stream()
+					.filter(x-> city.equals(x.getValue()))
+					.forEach(x->{
+						System.out.println("person living in city "+city+" are "+x.getKey());
+					});
+					
+			
+		}
+		
+		public void viewPersonByState(String state){
+			stateMap.entrySet().stream()
+			.filter(x-> state.equals(x.getValue()))
+			.forEach(x->{
+				System.out.println("person living in state "+state+" are "+x.getKey());
+			});
+			
+		}
+		
+		public void searchPersonByNameForCity(String name){
 			int flag=0;
-			for(Map.Entry<String,String> entry: stateMap.entrySet()){
-				if(entry.getValue().equals(city)){
-					System.out.println("Person living in city "+city+" is "+entry.getKey());
+			for(Map.Entry<String,String> entry: cityMap.entrySet()){
+				if(entry.getKey().equals(name)){
+					System.out.println("Person "+name+" lives in "+entry.getValue());
 					flag=1;
 				}
 			}
 			if(flag==0){
-				System.out.println("City does not exist");
+				System.out.println("Name does not exist");
 			}
 		}
 		
-		public void viewPersonByState(String state){
+		public void searchPersonByNameForState(String name){
 			int flag=0;
 			for(Map.Entry<String,String> entry: stateMap.entrySet()){
-				if(entry.getValue().equals(state)){
-					System.out.println("Person living in state "+state+" is "+entry.getKey());
+				if(entry.getKey().equals(name)){
+					System.out.println("Person "+name+" lives in "+entry.getValue());
 					flag=1;
 				}
 				
 			}
 			if(flag==0){
-				System.out.println("State does not exist");
+				System.out.println("Name does not exist");
 			}
 		}
 		public int countPersonsByCity(String city){
-			int cityCount=0;
-			for(Map.Entry<String,String> entry: cityMap.entrySet()){
-				if(entry.getValue().equals(city)){
-					cityCount++;
-				}
-			}
-			return cityCount;
+			return (int) cityMap.entrySet().stream()
+			.filter(x-> city.equals(x.getValue()))
+			.count();
 		}
 		public int countPersonsByState(String state){
-			int stateCount=0;
-			for(Map.Entry<String,String> entry: stateMap.entrySet()){
-				if(entry.getValue().equals(state)){
-					stateCount++;
-				}
+			return (int) stateMap.entrySet().stream()
+					.filter(x-> state.equals(x.getValue()))
+					.count();
+		}
+		
+		public void sortByName(){
+			for(Map.Entry<List<Details>, Integer> entry : contactMap.entrySet()){
+			List<Details> listSortedByFirstName=entry.getKey().stream().sorted(Comparator.comparing(Details::getFirstName)).collect(Collectors.toList());
+			 for(Details person: listSortedByFirstName) {
+		            System.out.println("Sorted by name: "+person.getFirstName()+" "+person.getLastName()+" "+person.getAddress()+" "+person.getCity()+" "+person.getState()+" "+person.getZip()+" "+person.getMobNum()+" "+person.getEmail());
+		        }
 			}
-			return stateCount;
 		}
 		
 }
