@@ -128,6 +128,18 @@ public class AddressBookMain {
 				addressBook.sortByName();
 				addressBook2.sortByName();
 			}
+			if(x==2){
+				addressBook.sortByCity();
+				addressBook2.sortByCity();
+			}
+			if(x==3){
+				addressBook.sortByState();
+				addressBook2.sortByState();
+			}
+			if(x==4){
+				addressBook.sortByZip();
+				addressBook2.sortByZip();
+			}
 			break;
 		case 12:
 			System.exit(0);

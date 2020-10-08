@@ -164,4 +164,30 @@ public class Persons {
 			}
 		}
 		
+		public void sortByCity(){
+			for(Map.Entry<List<Details>, Integer> entry : contactMap.entrySet()){
+			List<Details> listSortedByCity=entry.getKey().stream().sorted(Comparator.comparing(Details::getCity)).collect(Collectors.toList());
+			 for(Details person: listSortedByCity) {
+		            System.out.println("Sorted by city: "+person.getFirstName()+" "+person.getLastName()+" "+person.getAddress()+" "+person.getCity()+" "+person.getState()+" "+person.getZip()+" "+person.getMobNum()+" "+person.getEmail());
+		        }
+			}
+		}
+		public void sortByState(){
+			for(Map.Entry<List<Details>, Integer> entry : contactMap.entrySet()){
+			List<Details> listSortedByState=entry.getKey().stream().sorted(Comparator.comparing(Details::getState)).collect(Collectors.toList());
+			 for(Details person: listSortedByState) {
+		            System.out.println("Sorted by state: "+person.getFirstName()+" "+person.getLastName()+" "+person.getAddress()+" "+person.getCity()+" "+person.getState()+" "+person.getZip()+" "+person.getMobNum()+" "+person.getEmail());
+		        }
+			}
+		}
+		public void sortByZip(){
+			for(Map.Entry<List<Details>, Integer> entry : contactMap.entrySet()){
+			List<Details> listSortedByZip=entry.getKey().stream().sorted(Comparator.comparing(Details::getZip)).collect(Collectors.toList());
+			 for(Details person: listSortedByZip) {
+		            System.out.println("Sorted by zip: "+person.getFirstName()+" "+person.getLastName()+" "+person.getAddress()+" "+person.getCity()+" "+person.getState()+" "+person.getZip()+" "+person.getMobNum()+" "+person.getEmail());
+		        }
+			}
+		}
+
+		
 }
