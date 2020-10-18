@@ -11,8 +11,9 @@ import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 public class CSVTest {
 
 	CSVFile person = new CSVFile();
+
 	@Test
-	public void d() throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException, IOException{
+	public void d() throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException, IOException {
 		person.writeToFile();
 		int result = person.readFile();
 		Assert.assertEquals(2, result);
