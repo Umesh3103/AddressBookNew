@@ -1,6 +1,8 @@
 package com.bridgeLabz.learning;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
@@ -8,6 +10,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.opencsv.CSVReader;
@@ -22,46 +25,54 @@ public class CSVFile {
 	private static final String ADDRESS_FILE_PATH = "./users.csv";
 
 	public static void writeToFile() throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException, IOException {
-		Writer writer = null;
-		try {
-			writer = Files.newBufferedWriter(Paths.get(ADDRESS_FILE_PATH));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		StatefulBeanToCsv<Details> myCsv = new StatefulBeanToCsvBuilder(writer)
-				.withQuotechar(CSVWriter.NO_QUOTE_CHARACTER).build();
 		List<Details> myList = new ArrayList<>();
 		myList.add(
 				new Details("Umesh", "deora", "talkiya", "jaitaran", "raj", 1, (long) 1234567890, "umesh@gmail.com"));
 		myList.add(new Details("mahesh", "paliwal", "phalodi", "jodhpur", "raj", 1, (long) 1234567890,
 				"mahesh@gmail.com"));
-		myCsv.write(myList);
+
+		FileWriter fileWriter = new FileWriter(ADDRESS_FILE_PATH);
+		fileWriter.append("\n");
+		for (Details data : myList) {
+			fileWriter.append(String.valueOf(data.getFirstName()));
+			fileWriter.append(String.valueOf(","));
+			fileWriter.append(String.valueOf(data.getLastName()));
+			fileWriter.append(String.valueOf(","));
+			fileWriter.append(String.valueOf(data.getAddress()));
+			fileWriter.append(String.valueOf(","));
+			fileWriter.append(String.valueOf(data.getCity()));
+			fileWriter.append(String.valueOf(","));
+			fileWriter.append(String.valueOf(data.getState()));
+			fileWriter.append(String.valueOf(","));
+			fileWriter.append(String.valueOf(data.getZip()));
+			fileWriter.append(String.valueOf(","));
+			fileWriter.append(String.valueOf(data.getMobNum()));
+			fileWriter.append(String.valueOf(","));
+			fileWriter.append(String.valueOf(data.getEmail()));
+			fileWriter.append("\n");
+		}
+		fileWriter.flush();
+		fileWriter.close();
 	}
 
 	public int readFile() throws IOException {
-		Reader reader = null;
-		try {
-			reader = Files.newBufferedReader(Paths.get(ADDRESS_FILE_PATH));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		BufferedReader fileReader = null;
+		List<Details> persons = new ArrayList<>();
+		String line = "";
+		fileReader = new BufferedReader(new FileReader(ADDRESS_FILE_PATH));
+		fileReader.readLine();
+		while ((line = fileReader.readLine()) != null) {
+			String[] data = line.split(",");
+			if (data.length > 0) {
+				Details student = new Details(data[0], data[1], data[2], data[3], data[4], Integer.parseInt(data[5]),
+						Long.parseLong(data[6]), data[7]);
+				persons.add(student);
+			}
 		}
-		CSVReader csvReader = new CSVReader(reader);
-		List<String[]> records = csvReader.readAll();
 		int count = 0;
-		for (String[] record : records) {
-			System.out.println("First Name : " + record[0]);
-			System.out.println("Last Name : " + record[1]);
-			System.out.println("Address : " + record[2]);
-			System.out.println("City : " + record[3]);
-			System.out.println("State : " + record[4]);
-			System.out.println("Zip : " + record[5]);
-			System.out.println("Mobile no. : " + record[6]);
-			System.out.println("Email : " + record[7]);
-			System.out.println("---------------------------");
+		for (Details data : persons) {
+			System.out.println(data.toString());
 			count++;
-
 		}
 		return count;
 	}
